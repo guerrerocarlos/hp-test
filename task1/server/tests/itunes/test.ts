@@ -1,7 +1,8 @@
 
 import * as path from "path"
-import { Api } from '../../utils/itunes/Api';
 
+import { describe, test, expect } from '@jest/globals';
+import { Api } from '../../utils/itunes/Api';
 import { mswServer } from '../mocks/node';
 
 const { server, recording, record } = mswServer({
@@ -12,13 +13,13 @@ const { server, recording, record } = mswServer({
 })
 server.listen()
 
-describe('sum module', () => {
-  let testPayload = {
-    term: 'jack johnson',
-    country: 'US'
-  }
-  let newSearchParams = new URLSearchParams(testPayload);
-  test('adds 1 + 2 to equal 3', async () => {
+describe('iTunesAPI', () => {
+  test('Simple Search', async () => {
+    let testPayload = {
+      term: 'jack johnson',
+      country: 'US'
+    }
+    let newSearchParams = new URLSearchParams(testPayload);
     const api = new Api();
     expect(api).toBeInstanceOf(Api);
 

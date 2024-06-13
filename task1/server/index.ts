@@ -1,7 +1,7 @@
-import { App } from './express/app';
+import { App as ExpressApp } from './express/app';
 
 const port = 3333
-App().then(server => {
+ExpressApp().then(server => {
   server.listen(port)
-  console.log(`Server started on port ${port}!`);
+  console.log(`Express.js server started 🎸 http://localhost:${port}`);
 });

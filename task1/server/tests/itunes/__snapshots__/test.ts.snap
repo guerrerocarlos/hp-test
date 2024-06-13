@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`sum module adds 1 + 2 to equal 3 1`] = `
+exports[`iTunesAPI Simple Search 1`] = `
 "{
   "resultCount": 50,
   "results": [
