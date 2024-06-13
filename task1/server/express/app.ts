@@ -1,12 +1,12 @@
-import * as express from 'express';
+import { default as express } from 'express';
 import routes from './routes';
-import { init } from "./middlewares/swagger"
+import { init } from "./openapi/swagger"
 
 
 export async function App() {
-  const server = (express as any).default();
-  await init();
+  const server = express();
   server.use(express.json());
   server.use(routes);
+  await init();
   return server;
 }

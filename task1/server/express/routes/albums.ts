@@ -12,6 +12,7 @@ const itunes = new iTunesApi();
  *     produces: application/json
  *     parameters:
  *      - name: artist
+ *        required: true
  *        description: Artist name
  *        in: query
  *      - name: limit
@@ -27,13 +28,14 @@ const itunes = new iTunesApi();
  *            $ref: '#/components/schemas/Album'
  */
 routes.get('/albums', async (req, res) => {
-  let artist = req.query.artist || 'jack johnson';
+  let artist = req.query.artist
+  console.assert(artist, 'artist query parameter must be a provided');
 
   let results = await itunes.search.itunesSearch({
     term: artist as string,
-    country: 'US',
+    country: '',
     entity: 'album',
-    limit: req.query.limit ? parseInt(req.query.limit) : undefined
+    limit: req.query.limit ? parseInt(req.query.limit as string) : undefined,
   });
   let albums = await results.json()
 
