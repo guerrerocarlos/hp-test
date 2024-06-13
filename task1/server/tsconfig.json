@@ -1,5 +1,19 @@
 {
   "compilerOptions": {
-    "types": ["jest"]
-  }
+    "types": [
+      "jest"
+    ],
+    "target": "es5",
+    "module": "commonjs",
+    "outDir": "dist",
+    "strict": true,
+    "esModuleInterop": true
+  },
+  "include": [
+    "index.d.ts",
+    "src/*.ts",
+    "src/*.tsx",
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ]
 }
