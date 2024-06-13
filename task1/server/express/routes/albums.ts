@@ -1,8 +1,8 @@
 import { routes } from './router';
-import { Api as iTunesApi } from '../../utils/itunes/Api';
+import { Api } from '../../utils/itunes/Api';
 import { Album } from '../../definitions/types';
 
-const itunes = new iTunesApi();
+const itunes = new Api();
 
 /**
  * @openapi
@@ -21,7 +21,7 @@ const itunes = new iTunesApi();
  *        in: query
  *     responses:
  *       200:
- *         description: albums
+ *         description: Albums Array
  *         schema:
  *          type: array
  *          items: 

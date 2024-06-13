@@ -1,12 +1,13 @@
-import { default as swaggerJsDoc } from 'swagger-jsdoc';
 import * as swaggerUI from 'swagger-ui-express';
+import { default as swaggerJsDoc } from 'swagger-jsdoc';
+
 import { routes } from '../routes/router';
 import { generateSchemas } from './converter';
-import {name, version } from '../../package.json';
+import { name, version } from '../../package.json';
 
-export async function init() {
+export async function swagger() {
   const options = {
-    definition: await generateSchemas(),
+    definition: await generateSchemas("./definitions/types.ts"),
     apis: ['**/*.ts'],
   };
 
