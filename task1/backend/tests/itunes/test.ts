@@ -6,7 +6,7 @@ import { Api } from '../../utils/itunes/Api';
 import { mswServer } from '../mocks/node';
 
 const { server, recording, record } = mswServer({
-  record: false,
+  record: true,
   mocks: {
     'https://itunes.apple.com/search': path.resolve(__dirname, 'search')
   }
@@ -16,7 +16,8 @@ server.listen()
 describe('iTunesAPI', () => {
   test('Simple Search', async () => {
     let testPayload = {
-      term: 'jack johnson',
+      term: 'michael jackson',
+      entity: 'album',
       country: 'US'
     }
     let newSearchParams = new URLSearchParams(testPayload);
