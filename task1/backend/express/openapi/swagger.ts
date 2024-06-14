@@ -7,9 +7,11 @@ import { name, version } from '../../package.json';
 
 export async function swagger() {
   const options = {
-    definition: await generateSchemas("./definitions/types.ts"),
+    definition: await generateSchemas("./definitions/public.ts"),
     apis: ['**/*.ts'],
   };
+
+  console.log("options", JSON.stringify(options, null, 2))
 
   const swaggerDocs = swaggerJsDoc(options);
   routes.get('/*', swaggerUI.serve, swaggerUI.setup(swaggerDocs,

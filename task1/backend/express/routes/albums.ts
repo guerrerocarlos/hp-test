@@ -1,6 +1,6 @@
 import { routes } from './router';
 import { Api } from '../../utils/itunes/Api';
-import { Album } from '../../definitions/types';
+import { Album } from '../../definitions/public';
 
 const itunes = new Api();
 
@@ -24,8 +24,10 @@ const itunes = new Api();
  *         description: Albums Array
  *         schema:
  *          type: array
- *          items: 
+ *          schema: 
  *            $ref: '#/components/schemas/Album'
+ *       400:
+ *         description: Invalid Search
  */
 routes.get('/albums', async (req, res) => {
   let artist = req.query.artist
@@ -37,6 +39,7 @@ routes.get('/albums', async (req, res) => {
     entity: 'album',
     limit: req.query.limit ? parseInt(req.query.limit as string) : undefined,
   });
+  
   let albums = await results.json()
 
   let existingCollectionNames = [] as string[]
