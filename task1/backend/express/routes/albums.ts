@@ -36,8 +36,7 @@ routes.get('/albums', async (req, res) => {
   let results = await itunes.search.itunesSearch({
     term: artist as string,
     country: '',
-    entity: 'album',
-    limit: req.query.limit ? parseInt(req.query.limit as string) : undefined,
+    entity: 'album'
   });
   
   let albums = await results.json()
@@ -52,6 +51,10 @@ routes.get('/albums', async (req, res) => {
       return true
     }
   })
+
+  if(req.query.limit) {
+    uniqueAlbums = uniqueAlbums.slice(0, parseInt(req.query.limit as string))
+  }
 
   res.send(uniqueAlbums);
 });
