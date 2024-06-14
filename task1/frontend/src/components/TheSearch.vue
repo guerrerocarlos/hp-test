@@ -4,9 +4,7 @@ import { useAlbumsStore } from '../stores/albums'
 import { storeToRefs } from 'pinia'
 
 const { albums } = storeToRefs(useAlbumsStore())
-
 const { fetchAlbums } = useAlbumsStore()
-
 fetchAlbums()
 
 function dateToLocaleString(date: string) {
@@ -43,7 +41,6 @@ function dateToLocaleString(date: string) {
   font-size: 0.7em;
 }
 
-
 .minsize {
   width: 100px;
   height: 100px;
@@ -53,5 +50,4 @@ function dateToLocaleString(date: string) {
   border-radius: 25px;
   border: 1px solid gray;
 }
-
 </style>

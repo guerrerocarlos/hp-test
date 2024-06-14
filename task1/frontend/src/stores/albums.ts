@@ -28,12 +28,16 @@ export const useAlbumsStore = defineStore({
   },
   actions: {
     async fetchAlbums(artist?: string) {
+      const endpoint = import.meta.env.PROD ? "http://localhost:3333/albums" : "http://localhost:3333/albums"
+
       this.albums = new Array(6).fill({ loading: true, collectionName: '...'})
       this.loading = true
       try {
-        this.albums = await fetch(
-          `http://localhost:3333/albums?limit=6&artist=${artist || 'Elvis'}`
-        ).then((response) => response.json())
+        const endpointUrl = new URL(endpoint)
+        endpointUrl.searchParams.append('limit', '6')
+        endpointUrl.searchParams.append('artist', artist || 'Elvis')
+
+        this.albums = await fetch(endpointUrl.toString()).then((response) => response.json())
       } catch (error) {
         this.error = error as string
       } finally {
