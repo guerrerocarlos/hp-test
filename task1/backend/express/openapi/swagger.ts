@@ -11,8 +11,6 @@ export async function swagger() {
     apis: ['**/*.ts'],
   };
 
-  console.log("options", JSON.stringify(options, null, 2))
-
   const swaggerDocs = swaggerJsDoc(options);
   routes.get('/*', swaggerUI.serve, swaggerUI.setup(swaggerDocs,
     {
