@@ -28,12 +28,15 @@ export const useAlbumsStore = defineStore({
   },
   actions: {
     async fetchAlbums(artist?: string) {
-      const endpoint = import.meta.env.PROD ? "http://localhost:3333/albums" : "http://localhost:3333/albums"
+      const endpoint = import.meta.env.PROD
+        ? 'https://dev-hp-itunes.carlosguerrero.com/'
+        : 'http://localhost:3333/'
 
-      this.albums = new Array(6).fill({ loading: true, collectionName: '...'})
+      this.albums = new Array(6).fill({ loading: true, collectionName: '...' })
       this.loading = true
       try {
         const endpointUrl = new URL(endpoint)
+        endpointUrl.pathname = '/albums'
         endpointUrl.searchParams.append('limit', '6')
         endpointUrl.searchParams.append('artist', artist || 'Elvis')
 
