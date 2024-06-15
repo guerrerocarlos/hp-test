@@ -29,7 +29,7 @@ export const useAlbumsStore = defineStore({
   actions: {
     async fetchAlbums(artist?: string) {
       const endpoint = import.meta.env.PROD
-        ? 'https://dev-hp-itunes.carlosguerrero.com/'
+        ? 'https://api-hp-itunes.carlosguerrero.com/'
         : 'http://localhost:3333/'
 
       this.albums = new Array(6).fill({ loading: true, collectionName: '...' })
