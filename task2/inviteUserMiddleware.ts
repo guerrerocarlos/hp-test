@@ -1,6 +1,30 @@
 import superagent from "superagent";
 import { User, Shop } from "./models";
 
+const inviteUserToAuthSystem = (authUrl, invitationBody) => {
+  return superagent.post(authUrl).send(invitationBody);
+};
+
+const findOrCreateUser = (authId, email) => {
+  return User.findOneAndUpdate(
+    {
+      authId: authId,
+    },
+    {
+      authId: authId,
+      email: email,
+    },
+    {
+      upsert: true,
+      new: true,
+    }
+  );
+};
+
+const findShopById = (shopId) => {
+  return Shop.findById(shopId).exec();
+};
+
 const processInviteUser = async function (req) {
   console.assert(req.body, "request body is required");
   const invitationBody = req.body;
@@ -19,42 +43,35 @@ const processInviteUser = async function (req) {
   const authUrl = "https://url.to.auth.system.com/invitation";
 
   try {
-    // First: verify that external auth system processes the request correctly
-    let invitationResponse = await superagent
-      .post(authUrl)
-      .send(invitationBody);
+    let invitationResponse = await inviteUserToAuthSystem(
+      authUrl,
+      invitationBody
+    );
 
-    // If auth system responds with 201, create/find user in our system and add to shop
     if (invitationResponse.status === 201) {
-      
-      // Create user if not exists
-      const createdUser = await User.findOneAndUpdate(
-        {
-          authId: invitationResponse.body.authId,
-        },
-        {
-          authId: invitationResponse.body.authId,
-          email: invitationBody.email,
-        },
-        {
-          upsert: true,
-          new: true,
-        }
+      const createdUser = await findOrCreateUser(
+        invitationResponse.body.authId,
+        invitationBody.email
       );
 
-      // Get shop and add user to shop
-      const shop = await Shop.findById(shopId);
+      const shop = await findShopById(shopId);
       if (!shop) {
         return {
           status: 404,
           body: { message: "Shop not found" },
         };
       } else {
-        // Add user to shop
-        if (shop.invitations.indexOf(invitationResponse.body.invitationId)) {
+        if (!shop.invitations || !shop.users) {
+          return {
+            status: 404,
+            body: { message: "Shop error, incorrect properties" },
+          };
+        }
+
+        if (shop.invitations?.indexOf(invitationResponse.body.invitationId)) {
           shop.invitations.push(invitationResponse.body.invitationId);
         }
-        if (shop.users.indexOf(createdUser._id) === -1) {
+        if (shop.users?.indexOf(createdUser._id) === -1) {
           shop.users.push(createdUser);
         }
         await shop.save();
@@ -64,13 +81,11 @@ const processInviteUser = async function (req) {
         };
       }
     } else if (invitationResponse.status === 200) {
-      // If auth system responds with 200, user already invited to shop
       return {
         status: 400,
         body: { message: "User already invited to this shop" },
       };
     } else {
-      // If auth system responds with other status code, return error
       return {
         status: 500,
         body: { message: "unhandled InvitationResponse" },
@@ -79,7 +94,7 @@ const processInviteUser = async function (req) {
   } catch (error) {
     return {
       status: 500,
-      body: { message: "unhandled Error", error: error },
+      body: { message: "unhandled Error", error },
     };
   }
 };
