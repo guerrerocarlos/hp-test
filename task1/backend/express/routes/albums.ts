@@ -1,6 +1,6 @@
-import { routes } from './router';
-import { Api } from '../../utils/itunes/Api';
-import { Album } from '../../definitions/public';
+import { routes } from "./router";
+import { Api } from "../../utils/itunes/Api";
+import { Album } from "../../definitions/public";
 
 const itunes = new Api();
 
@@ -24,36 +24,37 @@ const itunes = new Api();
  *         description: Albums Array
  *         schema:
  *          type: array
- *          schema: 
+ *          schema:
  *            $ref: '#/components/schemas/Album'
  *       400:
  *         description: Invalid Search
  */
-routes.get('/albums', async (req, res) => {
-  let artist = req.query.artist
-  console.assert(artist, 'artist query parameter must be a provided');
+routes.get("/albums", async (req, res) => {
+  let artist = req.query.artist;
+  console.assert(artist, "artist query parameter must be a provided");
 
   let results = await itunes.search.itunesSearch({
     term: artist as string,
-    country: '',
-    entity: 'album'
+    attribute: "allArtistTerm",
+    country: "",
+    entity: "album",
   });
-  
-  let albums = await results.json()
 
-  let existingCollectionNames = [] as string[]
+  let albums = await results.json();
 
-  let uniqueAlbums = albums.results.filter((album: Album) => {
-    if (existingCollectionNames.includes(album.collectionName)) {
-      return false
-    } else {
-      existingCollectionNames.push(album.collectionName)
-      return true
+  let existingCollectionNames = [] as string[];
+
+  let uniqueAlbums = [] as Album[];
+  for (let album of albums.results) {
+    if (!existingCollectionNames.includes(album.collectionName)) {
+      existingCollectionNames.push(album.collectionName);
+      uniqueAlbums.push(album);
+      if(req.query.limit && parseInt(req.query.limit as string)) {
+        if(uniqueAlbums.length === parseInt(req.query.limit as string)) {
+          break;
+        }
+      }
     }
-  })
-
-  if(req.query.limit) {
-    uniqueAlbums = uniqueAlbums.slice(0, parseInt(req.query.limit as string))
   }
 
   res.send(uniqueAlbums);
