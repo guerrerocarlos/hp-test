@@ -1,0 +1,53 @@
+service: itunes-api
+frameworkVersion: "3"
+
+plugins:
+  # - serverless-esbuild
+  - serverless-plugin-typescript
+  - serverless-offline
+  - serverless-domain-manager
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${opt:stage}
+  region: eu-west-3
+  timeout: 30
+  memorySize: 256
+  deploymentBucket:
+    name: deployment-bucket-${self:provider.region}
+  environment:
+    STAGE: ${opt:stage, self:provider.stage}
+    REGION: ${opt:region, self:provider.region}
+    DOMAIN: carlosguerrero.com
+    NAME: ${self:service}
+
+package:
+  patterns:
+    - "!**.d.ts"
+    - "!**/dist-es/**"
+    - "!test/**"
+
+functions:
+  rest:
+    handler: lambda.handler
+    events:
+      - httpApi:
+          path: /{proxy+}
+          method: any
+
+custom:
+  # esbuild:
+  #   bundle: true
+  #   minify: false
+  customDomain:
+    domainName: ${opt:stage, self:provider.stage}-hp-itunes.${self:provider.environment.DOMAIN}
+    stage: ${opt:stage, self:provider.stage}
+    basePath: ""
+    certificateName: "*.${self:provider.environment.DOMAIN}"
+    createRoute53Record: false
+    createRoute53IPv6Record: false
+    endpointType: REGIONAL
+    securityPolicy: tls_1_2
+    apiType: http
+    autoDomain: true
