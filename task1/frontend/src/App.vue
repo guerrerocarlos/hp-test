@@ -11,6 +11,19 @@ const { loading } = storeToRefs(useAlbumsStore())
 const handleClick = () => {
   fetchAlbums(getSearchText.value)
 }
+
+let timeout: any
+
+const handleEnter = (event: KeyboardEvent) => {
+  clearTimeout(timeout)
+  if (event.key === 'Enter') {
+    fetchAlbums(getSearchText.value)
+  } else {
+    timeout = setTimeout(() => {
+      fetchAlbums(getSearchText.value)
+    }, 1000)
+  }
+}
 </script>
 
 <template>
@@ -21,7 +34,14 @@ const handleClick = () => {
       <h1>Artist Album Search</h1>
       <h3>Enter an artist's name to get a few albums:</h3>
       <div class="flex flexCenteredOnVertical">
-        <input v-bind:disabled="loading" v-model="form.value" placeholder="Elvis" class="searchInput" type="text" />
+        <input
+          v-bind:disabled="loading"
+          v-model="form.value"
+          @keydown="handleEnter"
+          placeholder="Elvis"
+          class="searchInput"
+          type="text"
+        />
         <button v-bind:disabled="loading" @click="handleClick" type="submit">Search</button>
       </div>
     </div>
@@ -38,6 +58,7 @@ header {
 
 .searchInput {
   font-size: 2em;
+  width: 100%;
 }
 
 .logo {
