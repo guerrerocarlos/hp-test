@@ -60,37 +60,42 @@ const processInviteUser = async function (req) {
           status: 404,
           body: { message: "Shop not found" },
         };
-      } else {
-        if (!shop.invitations || !shop.users) {
-          return {
-            status: 404,
-            body: { message: "Shop error, incorrect properties" },
-          };
-        }
+      }
 
-        if (shop.invitations?.indexOf(invitationResponse.body.invitationId)) {
-          shop.invitations.push(invitationResponse.body.invitationId);
-        }
-        if (shop.users?.indexOf(createdUser._id) === -1) {
-          shop.users.push(createdUser);
-        }
-        await shop.save();
+      if (!shop.invitations || !shop.users) {
         return {
-          status: 200,
-          body: { message: "Invited to shop" },
+          status: 404,
+          body: { message: "Shop error, incorrect properties" },
         };
       }
-    } else if (invitationResponse.status === 200) {
+
+      if (shop.invitations?.indexOf(invitationResponse.body.invitationId)) {
+        shop.invitations.push(invitationResponse.body.invitationId);
+      }
+
+      if (shop.users?.indexOf(createdUser._id) === -1) {
+        shop.users.push(createdUser);
+      }
+
+      await shop.save();
+
+      return {
+        status: 200,
+        body: { message: "Invited to shop" },
+      };
+    }
+
+    if (invitationResponse.status === 200) {
       return {
         status: 400,
         body: { message: "User already invited to this shop" },
       };
-    } else {
-      return {
-        status: 500,
-        body: { message: "unhandled InvitationResponse" },
-      };
     }
+
+    return {
+      status: 500,
+      body: { message: "unhandled InvitationResponse" },
+    };
   } catch (error) {
     return {
       status: 500,
