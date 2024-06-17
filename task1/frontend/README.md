@@ -1,4 +1,4 @@
-# Vue.js frontend that accomplishes these tasks:
+# Vue.js frontend that accomplishes these tasks:
 
 Create a Vue.js app that accomplishes the following:
 
@@ -6,7 +6,7 @@ Create a Vue.js app that accomplishes the following:
  - Displays the albums (as thumbnail &amp; title) in a grid
  - Has a live search box to filter (on client-side) the currently displayed albums
 
-## Implementation
+## Implementation
 
 Used default scaffolding from `yarn create vue`
 
@@ -14,7 +14,7 @@ Implemented connection to https://api-hp-itunes.carlosguerrero.com/ backend.
 
 Modified existing default frontend to accomplish the required tasks.
 
-* Local development:
+### Local development:
 
 `npm run dev`
 
