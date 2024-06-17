@@ -16,4 +16,4 @@ Modified existing default frontend to accomplish the required tasks.
 
 `npm run dev`
 
-🟢 Live demo: https://api-hp-itunes.carlosguerrero.com/ (CloudFlare)
+🟢 Live demo: https://hp-itunes.carlosguerrero.com/ (CloudFlare)
