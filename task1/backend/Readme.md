@@ -15,11 +15,7 @@
 
 # Local development:
 
- * Install dependencies:
-
-```yarn install```
-
- * Run locally using `tsx`
+Run locally using `tsx`:
 
 ```npm run dev```
 
@@ -29,4 +25,4 @@ Additionally the service can be deployed to AWS Lambda using the serverless fram
 
 ```serverless offline --stage api```
 
-Live demo: https://api-hp-itunes.carlosguerrero.com/ (AWS Lambda)
+🟢 Live demo: https://api-hp-itunes.carlosguerrero.com/ (AWS Lambda)
