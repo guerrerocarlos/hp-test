@@ -12,3 +12,19 @@
  - **express**: Takes care of all the express.js related logic, including automatic generation of OpenAPI Rest API documentation and public UI service. Each endpoint is documented using OpenAPI standard. Example [albums.ts](express/routes/albums.ts)
  - **utils**: Contains all useful tools that can be required by the business logic, like in this case [itunes](utils/itunes/). Itunes client is generated automatically from available [swagger definition](utils/itunes/itunesapi.swagger.json) and re-generated or updated using `npm run itunesapi`
  - **tests**: Keeps all unit-tests and mocks required to do test-driven-development even without access to internet. [MSW](https://mswjs.io/) was used to record network requests and be able to replay inside tests.
+
+# Local development:
+
+## Install dependencies:
+
+```yarn install```
+
+## Run locally using `tsx`
+
+```npm run dev```
+
+# Serverless
+
+Additionally the service can be deployed to AWS Lambda using the serverless framework and can be tested locally using:
+
+```serverless offline --stage api```
