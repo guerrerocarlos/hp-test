@@ -1,1 +1,1 @@
-Tests: ![Tests Status](https://github.com/guerrerocarlos/hp-test/actions/workflows/backend/badge.svg)
+Tests: ![Tests Status](https://github.com/guerrerocarlos/hp-test/actions/workflows/backend.yml/badge.svg)
