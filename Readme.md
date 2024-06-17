@@ -4,10 +4,10 @@
 
 Code can be found in the [/task1/backend](/task1/backend) folder:
 
-Live demos are available:
+### Live Demo:
 
-Frontend Demo: https://hp-itunes.carlosguerrero.com/ (CloudFlare hosted)
-Backend: https://api-hp-itunes.carlosguerrero.com/ (AWS Lambda hosted)
+ - Frontend: https://hp-itunes.carlosguerrero.com/     (CloudFlare hosted)
+ - Backend:  https://api-hp-itunes.carlosguerrero.com/ (AWS Lambda hosted)
 
 ## Test2:
 
