@@ -28,3 +28,5 @@
 Additionally the service can be deployed to AWS Lambda using the serverless framework and can be tested locally using:
 
 ```serverless offline --stage api```
+
+Live demo: https://api-hp-itunes.carlosguerrero.com/ (AWS Lambda)
