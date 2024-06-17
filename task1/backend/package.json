@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "itunesapi": "npx swagger-typescript-api -p ./utils/itunes/itunesapi.swagger.json -o ./utils/itunes/",
+    "definitions": "tsx definitions/converter.ts",
     "dev": "tsx --watch index.ts",
     "local": "tsx index.ts",
     "test": "jest"
