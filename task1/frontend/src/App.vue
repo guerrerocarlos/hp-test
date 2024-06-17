@@ -7,7 +7,7 @@ import { storeToRefs } from 'pinia'
 const { form, getSearchText } = storeToRefs(useSearchStore())
 const { loading, genres, genreFilter } = storeToRefs(useAlbumsStore())
 
-const { fetchAlbums, hasGenres } = useAlbumsStore()
+const { fetchAlbums } = useAlbumsStore()
 
 const handleClick = () => {
   fetchAlbums(getSearchText.value)
@@ -31,8 +31,7 @@ const handleEnter = (event: KeyboardEvent) => {
   <header class="header sticky headerBackground">
       <img alt="logo" class="logo" src="@/assets/logo.jpg" width="125" height="125" />
       <div class="wrapper centeredOnVertical">
-        <h1>Artist Album Search</h1>
-        <h3>Enter an artist's name to get a few albums:</h3>
+        <h3>Artist Name:</h3>
         <div class="flex flexCenteredOnVertical">
           <input
             v-bind:disabled="loading"

@@ -1,25 +1,25 @@
 import { defineStore } from 'pinia'
 
 export type Album = {
-  wrapperType: string;
-  collectionType: string;
-  artistId: number;
-  collectionId: number;
-  amgArtistId: number;
-  artistName: string;
-  collectionName: string;
-  collectionCensoredName: string;
-  artistViewUrl: string;
-  collectionViewUrl: string;
-  artworkUrl60: string;
-  artworkUrl100: string;
-  collectionPrice: number;
-  collectionExplicitness: string;
-  trackCount: number;
-  country: string;
-  currency: string;
-  releaseDate: string;
-  primaryGenreName: string;
+  wrapperType: string
+  collectionType: string
+  artistId: number
+  collectionId: number
+  amgArtistId: number
+  artistName: string
+  collectionName: string
+  collectionCensoredName: string
+  artistViewUrl: string
+  collectionViewUrl: string
+  artworkUrl60: string
+  artworkUrl100: string
+  collectionPrice: number
+  collectionExplicitness: string
+  trackCount: number
+  country: string
+  currency: string
+  releaseDate: string
+  primaryGenreName: string
   loading?: true
 }
 
@@ -27,7 +27,7 @@ export const useAlbumsStore = defineStore({
   id: 'post',
   state: () => ({
     albums: [] as Album[],
-    genreFilter: "All",
+    genreFilter: 'All',
     genres: [] as string[],
     loading: false,
     error: ''
@@ -43,10 +43,15 @@ export const useAlbumsStore = defineStore({
       return state.loading
     },
     filteredAlbums: (state) => {
-      return state.albums.filter((album) => state.genreFilter === "All" || album.primaryGenreName === state.genreFilter)
+      return state.albums.filter(
+        (album) => state.genreFilter === "" || state.genreFilter === 'All' || album.primaryGenreName === state.genreFilter
+      )
     }
   },
   actions: {
+    genreFilterReset() {
+      this.genreFilter = 'All'
+    },
     async fetchAlbums(artist?: string) {
       const endpoint = import.meta.env.PROD
         ? 'https://api-hp-itunes.carlosguerrero.com/'
@@ -61,8 +66,13 @@ export const useAlbumsStore = defineStore({
         endpointUrl.searchParams.append('artist', artist || 'Elvis')
 
         this.albums = await fetch(endpointUrl.toString()).then((response) => response.json())
-        this.genres = ["All", ...Array.from(new Set(this.albums.map((album) => album.primaryGenreName)))]
-
+        this.genres = [
+          'All',
+          ...Array.from(new Set(this.albums.map((album) => album.primaryGenreName)))
+        ]
+        if(this.genres.indexOf(this.genreFilter) === -1) {
+          this.genreFilterReset()
+        }
       } catch (error) {
         this.error = error as string
       } finally {
