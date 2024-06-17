@@ -20,7 +20,7 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: yarn install
+        run: cd task1/backend ; yarn install
 
       - name: Run Jest tests
         run: cd task1/backend ; npx jest
