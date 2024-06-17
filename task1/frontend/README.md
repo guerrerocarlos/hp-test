@@ -1,7 +1,5 @@
 # Vue.js frontend that accomplishes these tasks:
 
-Create a Vue.js app that accomplishes the following:
-
  - Makes an API request to the above route to fetch the albums
  - Displays the albums (as thumbnail &amp; title) in a grid
  - Has a live search box to filter (on client-side) the currently displayed albums
