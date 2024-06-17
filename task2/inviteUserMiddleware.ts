@@ -49,6 +49,18 @@ const processInviteUser = async function (req) {
     );
 
     if (invitationResponse.status === 201) {
+      if (
+        !invitationResponse.body.authId ||
+        !invitationResponse.body.invitationId
+      ) {
+        return {
+          status: 500,
+          body: {
+            message: "Invitation response missing authId or invitationId",
+          },
+        };
+      }
+
       const createdUser = await findOrCreateUser(
         invitationResponse.body.authId,
         invitationBody.email
@@ -94,7 +106,7 @@ const processInviteUser = async function (req) {
 
     return {
       status: 500,
-      body: { message: "unhandled InvitationResponse" },
+      body: { message: "unhandled InvitationResponse error" },
     };
   } catch (error) {
     return {
