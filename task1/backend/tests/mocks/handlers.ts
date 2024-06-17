@@ -12,7 +12,7 @@ type Mocks = {
 }
 
 export const handlers = (mocks: Mocks, disableMocks?: boolean) => {
-  let mocksResolvers = []
+  let mocksResolvers = [] as any
   for (const [key, folderPath] of Object.entries(mocks)) {
     mocksResolvers.push(http.get(key, ({ request }) => {
       if (disableMocks) return passthrough()

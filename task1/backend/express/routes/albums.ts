@@ -1,8 +1,5 @@
 import { routes } from "./router";
-import { Api } from "../../utils/itunes/Api";
-import { Album } from "../../definitions/public";
-
-const itunes = new Api();
+import { searchFromItunes } from "../../utils/itunes";
 
 /**
  * @openapi
@@ -32,30 +29,10 @@ const itunes = new Api();
 routes.get("/albums", async (req, res) => {
   let artist = req.query.artist;
   console.assert(artist, "artist query parameter must be a provided");
-
-  let results = await itunes.search.itunesSearch({
-    term: artist as string,
-    attribute: "allArtistTerm",
-    country: "",
-    entity: "album",
+  
+  const uniqueAlbums = await searchFromItunes(artist as string, {
+    limit: req.query.limit as string,
   });
-
-  let albums = await results.json();
-
-  let existingCollectionNames = [] as string[];
-
-  let uniqueAlbums = [] as Album[];
-  for (let album of albums.results) {
-    if (!existingCollectionNames.includes(album.collectionName)) {
-      existingCollectionNames.push(album.collectionName);
-      uniqueAlbums.push(album);
-      if(req.query.limit && parseInt(req.query.limit as string)) {
-        if(uniqueAlbums.length === parseInt(req.query.limit as string)) {
-          break;
-        }
-      }
-    }
-  }
 
   res.send(uniqueAlbums);
 });
