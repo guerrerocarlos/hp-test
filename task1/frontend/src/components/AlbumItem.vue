@@ -1,18 +1,24 @@
 <template>
-  <div class="item">
-    <div >
+  <div class="grid-item flexCols">
+    <div class="">
       <slot name="icon"></slot>
     </div>
     <div class="details">
-      <h3 class="">
-        <slot name="heading"></slot>
-      </h3>
       <slot></slot>
     </div>
   </div>
 </template>
 
 <style scoped>
+.flexCols {
+  display: flex;
+  flex-direction: row;
+}
+
+.grid-item {
+  padding: 20px; /* Optional: For padding around the content */
+}
+
 .item {
   margin-top: 2rem;
   display: flex;
@@ -20,8 +26,9 @@
 }
 
 .details {
+  margin-top: 10px;
+  margin-left: 20px;
   flex: 1;
-  margin-left: 1rem;
 }
 
 h3 {
