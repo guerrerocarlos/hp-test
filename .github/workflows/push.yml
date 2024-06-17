@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'task1/backend/**'
+      - '.github/**'
 
 jobs:
   test:
