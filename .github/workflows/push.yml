@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  push:
+    paths:
+      - 'task1/backend/**'
 
 jobs:
   test:
