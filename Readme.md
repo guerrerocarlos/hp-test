@@ -1,7 +1,6 @@
-# Technical Challenge
+# Technical Challenge ![Tests Status](https://github.com/guerrerocarlos/hp-test/actions/workflows/backend.yml/badge.svg)
 
-
-## Test1: 
+## Test1:
 
 Code can be found in the [/task1/backend](/task1/backend) folder:
 
@@ -10,12 +9,9 @@ Live demos are available:
 Frontend Demo: https://hp-itunes.carlosguerrero.com/ (CloudFlare hosted)
 Backend: https://api-hp-itunes.carlosguerrero.com/ (AWS Lambda hosted)
 
-Tests status:
-![Tests Status](https://github.com/guerrerocarlos/hp-test/actions/workflows/backend.yml/badge.svg)
-
 ## Test2:
 
-### What do you think is wrong with the code, if anything?
+ * What do you think is wrong with the code, if anything?
 
  - I don’t think it should be considered a “middleware” since it actually just processes and responds to a specific action. 
  - It would depend on the business logic, but seems weird to have a “inviteUser” middleware in the “middle” of every request that comes on. Rather would make it just a specific endpoint that takes care of this action.
@@ -25,13 +21,13 @@ Tests status:
  - Also moving it to typescript and defining all types would obviously be ideal
  - Error 400 (Bad Request) when “User already invited to this shop” does not correspond, maybe 400 (Conflict) would be more appropriate.
 
-### Can you see any potential problems that could lead to exceptions
+* Can you see any potential problems that could lead to exceptions
 
  - I would prefer not to return “res.json(invitationResponse);” without knowing what it contains, and instead process the response received from the external endpoint.
  - If the request is correctly processed, nothing is returned to the user after “shop.save();”
  - Most of the possible async errors (err variables) are not handled.
 
-### How would you refactor this code to:
+* How would you refactor this code to:
  - Make it easier to read
  - I would decouple the express response returning code portion from the response object generation, and also make it async/await so to be able to return at any point, and prevent any unintended code from running after the response object was created.
  - Increase code reusability
@@ -45,5 +41,5 @@ Tests status:
  - Extract the HTTP request to the authentication system into a separate function. This would allow to mock this function in the tests, isolating the behaviour of the processInviteUser function.
  - Similarly, extract the database operations into separate functions. This will allow to mock these functions in the tests, isolating the behaviour of the processInviteUser function.
 
-### How might you use the latest JavaScript features to refactor the code?
+* How might you use the latest JavaScript features to refactor the code?
  - Code here: https://github.com/guerrerocarlos/hp-test/blob/main/task2/inviteUserMiddleware.ts
