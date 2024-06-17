@@ -23,4 +23,4 @@ jobs:
         run: yarn install
 
       - name: Run Jest tests
-        run: cd backend/task1 ; npx jest
+        run: cd task1/backend ; npx jest
